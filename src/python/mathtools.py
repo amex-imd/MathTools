@@ -12,4 +12,6 @@ def reverse(val: int) -> int:
 
 def is_palindrome(val: int) -> bool:
     if val < 0: return False
+    if val % 10 == 0: return False
+    if val < 10: return True
     return val == reverse(val)
