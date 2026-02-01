@@ -41,3 +41,14 @@ def is_prime(val: int) -> bool:
         if val % i == 0:
             return False
     return True
+
+def Eratosthenes_sieve(num: int) -> list:
+    primes: list = [True] * num
+    primes[0] = primes[1] = False
+    for i in range(2, int(math.sqrt(num)) + 1):
+        if primes[i]:
+            j = i * i
+            while j < num:
+                primes[j] = False
+                j += i
+    return [i for i in range(2, num) if primes[i]]
