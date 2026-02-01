@@ -52,3 +52,6 @@ def Eratosthenes_sieve(num: int) -> list:
                 primes[j] = False
                 j += i
     return [i for i in range(2, num) if primes[i]]
+
+def number_primes(num: int) -> int:
+    return len(Eratosthenes_sieve(num))
