@@ -2,6 +2,24 @@ import math # Temporary
 
 __EPSILON: float = 1e-12
 
+def is_zero(num: float):
+    return abs(num) < __EPSILON
+
+def Newton_Raphson_root(num: float, pow: int, approx: float = 0.0) -> tuple[float, int]:
+    if pow <= 0: raise ValueError(f'The argument \'{pow}\' must be greater than 0')
+    if pow % 2 == 0 and num < 0: raise ValueError(f'It is impossible to take a root with the power \'{pow}\' of the negative number \'{num}\'')
+
+
+    prev: float = approx
+    curr: float = ((pow - 1) * prev + num/(prev ** (pow - 1))) / pow
+    iter_num: int = 1
+    while abs(prev - curr) > __EPSILON:
+        prev = curr
+        if is_zero(prev): raise ArithmeticError('Division by 0 is prohibited')
+        curr = ((pow - 1) * prev + num/(prev ** (pow - 1))) / pow
+        iter_num += 1
+    return (curr, iter_num)
+
 def reverse(val: int) -> int:
     res: int = 0
     sign: int = -1 if val < 0 else 1
