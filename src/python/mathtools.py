@@ -64,3 +64,6 @@ def all_divisors(num: int) -> list:
             if num // i != i: # Checking for duplicates
                 res.append(num // i)
     return res
+
+def number_divisors(num: int) -> list:
+    return len(all_divisors(num))
