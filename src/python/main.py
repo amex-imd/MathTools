@@ -1,3 +1,5 @@
 import mathtools as mt
 
-print(mt.number_digits(-121))
+for i in range(0, 1000):
+    if mt.is_prime(i):
+        print(i, end=' ')

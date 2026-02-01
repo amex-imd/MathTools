@@ -1,3 +1,5 @@
+import math # Temporary
+
 __EPSILON: float = 1e-12
 
 def reverse(val: int) -> int:
@@ -29,3 +31,13 @@ def number_digits(val: int) -> int:
         res += 1
         val //= 10
     return res
+
+def is_prime(val: int) -> bool:
+    if val < 0: return False
+    if val == 2: return True
+    if val == 0 or val == 1: return False
+    if val % 2 == 0: return False
+    for i in range(3, int(math.sqrt(val)) + 1, 2):
+        if val % i == 0:
+            return False
+    return True
