@@ -55,3 +55,12 @@ def Eratosthenes_sieve(num: int) -> list:
 
 def number_primes(num: int) -> int:
     return len(Eratosthenes_sieve(num))
+
+def all_divisors(num: int) -> list:
+    res: list = []
+    for i in range(1, int(math.sqrt(num)) + 1):
+        if num % i == 0:
+            res.append(i)
+            if num // i != i: # Checking for duplicates
+                res.append(num // i)
+    return res
