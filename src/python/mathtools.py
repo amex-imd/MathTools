@@ -34,16 +34,20 @@ def sign(val: float) -> int:
 def abs(val: float) -> float:
     return val * sign(val)
 
-def is_equal(num1: float, num2: float) -> bool:
-    return abs(num1 - num2) <= __EPSILON
+def is_equal(val1: float, val2: float) -> bool:
+    return abs(val1 - val2) <= __EPSILON
 
-def is_zero(num: float) -> bool:
-    return is_equal(num, 0)
-    
+def is_zero(val: float) -> bool:
+    return is_equal(val, 0)
+
+def is_even(val: int) -> bool:
+    return val % 2 == 0
+def is_odd(val: int) -> bool:
+    return not is_even(val)
 
 def Newton_Raphson_root(num: float, pow: int, approx: float = 1.0) -> tuple[float, int]:
     if pow <= 0: raise ValueError(f'The argument \'{pow}\' must be greater than 0')
-    if pow % 2 == 0 and num < 0: raise ValueError(f'It is impossible to take a root with the power \'{pow}\' of the negative number \'{num}\'')
+    if is_even(pow) and num < 0: raise ValueError(f'It is impossible to take a root with the power \'{pow}\' of the negative number \'{num}\'')
 
     prev: float = approx
     curr: float = ((pow - 1) * prev + num/(prev ** (pow - 1))) / pow
@@ -64,15 +68,13 @@ def power(num: float, pow: int) -> float:
     res: float = num
     pow -= 1
     while(pow > 0):
-        if pow % 2 == 0:
+        if is_even(pow):
             res *= res
             pow //= 2
         else:
             res *= num
             pow -= 1
     return res
-    
-
 
 def reverse(val: int) -> int:
     res: int = 0
@@ -108,7 +110,7 @@ def is_prime(val: int) -> bool:
     if val < 0: return False
     if val == 2: return True
     if val == 0 or val == 1: return False
-    if val % 2 == 0: return False
+    if is_even(val): return False
 
     for i in range(3, int(math.sqrt(val)) + 1, 2):
         if val % i == 0:
@@ -129,17 +131,17 @@ def Eratosthenes_sieve(num: int) -> list:
 def number_primes(num: int) -> int:
     return len(Eratosthenes_sieve(num))
 
-def all_divisors(num: int) -> list:
+def all_divisors(val: int) -> list:
     res: list = []
-    for i in range(1, int(math.sqrt(num)) + 1):
-        if num % i == 0:
+    for i in range(1, int(math.sqrt(val)) + 1):
+        if val % i == 0:
             res.append(i)
-            if num // i != i: # Checking for duplicates
-                res.append(num // i)
+            if val // i != i: # Checking for duplicates
+                res.append(val // i)
     return res
 
-def number_divisors(num: int) -> list:
-    return len(all_divisors(num))
+def number_divisors(val: int) -> list:
+    return len(all_divisors(val))
 
 def roman_to_integer(line: str) -> int:
     if not line: raise ValueError('The argument \'line\' must be not empty')
