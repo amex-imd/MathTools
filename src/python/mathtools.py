@@ -2,10 +2,13 @@ import math # Temporary
 
 __EPSILON: float = 1e-12
 
-def is_zero(num: float):
-    return abs(num) < __EPSILON
+def is_equal(num1: float, num2: float):
+    return abs(num1 - num2) <= __EPSILON
 
-def Newton_Raphson_root(num: float, pow: int, approx: float = 0.0) -> tuple[float, int]:
+def is_zero(num: float):
+    return is_equal(num, 0)
+
+def Newton_Raphson_root(num: float, pow: int, approx: float = 1.0) -> tuple[float, int]:
     if pow <= 0: raise ValueError(f'The argument \'{pow}\' must be greater than 0')
     if pow % 2 == 0 and num < 0: raise ValueError(f'It is impossible to take a root with the power \'{pow}\' of the negative number \'{num}\'')
 
