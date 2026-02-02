@@ -26,11 +26,20 @@ __SPECIAL_ROMAN_TABLE: dict = {
     'M' : 1000
 }
 
+def sign(val: float) -> int:
+    if val < -__EPSILON: return -1
+    if val > __EPSILON: return +1
+    return 0
+
+def abs(val: float) -> float:
+    return val * sign(val)
+
 def is_equal(num1: float, num2: float) -> bool:
     return abs(num1 - num2) <= __EPSILON
 
 def is_zero(num: float) -> bool:
     return is_equal(num, 0)
+    
 
 def Newton_Raphson_root(num: float, pow: int, approx: float = 1.0) -> tuple[float, int]:
     if pow <= 0: raise ValueError(f'The argument \'{pow}\' must be greater than 0')
@@ -46,6 +55,24 @@ def Newton_Raphson_root(num: float, pow: int, approx: float = 1.0) -> tuple[floa
         curr = ((pow - 1) * prev + num/(prev ** (pow - 1))) / pow
         iter_num += 1
     return (curr, iter_num)
+
+def power(num: float, pow: int) -> float:
+    if is_zero(pow):
+        if is_zero(num): raise ValueError('The expression \'0^0\' is not defined')
+        else: return 1
+    if pow < 0: return 1 / power(num, -pow)
+    res: float = num
+    pow -= 1
+    while(pow > 0):
+        if pow % 2 == 0:
+            res *= res
+            pow //= 2
+        else:
+            res *= num
+            pow -= 1
+    return res
+    
+
 
 def reverse(val: int) -> int:
     res: int = 0
@@ -114,14 +141,6 @@ def all_divisors(num: int) -> list:
 def number_divisors(num: int) -> list:
     return len(all_divisors(num))
 
-def sign(val: float) -> int:
-    if val < -__EPSILON: return -1
-    if val > __EPSILON: return +1
-    return 0
-
-def abs(val: float) -> float:
-    return val * sign(val)
-
 def roman_to_integer(line: str) -> int:
     if not line: raise ValueError('The argument \'line\' must be not empty')
 
@@ -137,10 +156,10 @@ def roman_to_integer(line: str) -> int:
 def integer_to_roman(val: int) -> str:
     if val <= 0: raise ValueError('The argument \'val\' must be greater than 0')
 
-    tmp: list = []
+    res: str = ''
     for key, num in __SPECIAL_ROMAN_TABLE.items().__reversed__():
         if val == 0: break
         count = val // num
-        tmp.append(key * count)
+        res += key * count
         val -= count * num
-    return ''.join(tmp)
+    return res
