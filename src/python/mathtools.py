@@ -118,7 +118,7 @@ def is_prime(val: int) -> bool:
             return False
     return True
 
-def Eratosthenes_sieve(num: int) -> list:
+def Eratosthenes_sieve(num: int) -> list[int]:
     primes: list = [True] * num
     primes[0] = primes[1] = False
     for i in range(2, int(Newton_Raphson_root(num, 2, num / 2)[0]) + 1):
@@ -132,7 +132,7 @@ def Eratosthenes_sieve(num: int) -> list:
 def number_primes(num: int) -> int:
     return len(Eratosthenes_sieve(num))
 
-def all_divisors(val: int) -> list:
+def all_divisors(val: int) -> list[int]:
     res: list = []
     for i in range(1, int(Newton_Raphson_root(val, 2, val / 2)[0]) + 1):
         if val % i == 0:
@@ -167,7 +167,7 @@ def integer_to_roman(val: int) -> str:
         val -= count * num
     return res
 
-def interval_halving_method(f: Callable, beg: float, end: float) -> tuple:
+def interval_halving_method(f: Callable, beg: float, end: float) -> tuple[float, int]:
     if f(beg) * f(end) >= 0: raise ValueError('The function \'f\' must have values with different signs at the ends of the interval \'[beg; end]\'')
     mid: float = 0
     iter_num: int = 0
@@ -179,4 +179,9 @@ def interval_halving_method(f: Callable, beg: float, end: float) -> tuple:
         elif f(mid) * f(end) < 0:
             beg = mid
         iter_num += 1
-    return (mid, iter_num)    
+    return (mid, iter_num)
+
+def clamp(val: float, min: float, max: float):
+    if val < min: return min
+    if val > max: return max
+    return val
