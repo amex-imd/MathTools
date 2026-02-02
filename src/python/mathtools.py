@@ -10,6 +10,21 @@ __ROMAN_TABLE: dict = {
     'D' : 500,
     'M' : 1000
 }
+__SPECIAL_ROMAN_TABLE: dict = {
+    'I' : 1,
+    'IV' : 4,
+    'V' : 5,
+    'IX' : 9,
+    'X' : 10,
+    'XL' : 40,
+    'L' : 50,
+    'XC' : 90,
+    'C' : 100,
+    'CD' : 400,
+    'D' : 500,
+    'CM' : 900,
+    'M' : 1000
+}
 
 def is_equal(num1: float, num2: float) -> bool:
     return abs(num1 - num2) <= __EPSILON
@@ -118,3 +133,14 @@ def roman_to_integer(line: str) -> int:
             res -= __ROMAN_TABLE[line[i]]
         else: res += __ROMAN_TABLE[line[i]]
     return res + __ROMAN_TABLE[line[-1]]
+
+def integer_to_roman(val: int) -> str:
+    if val <= 0: raise ValueError('The argument \'val\' must be greater than 0')
+
+    tmp: list = []
+    for key, num in __SPECIAL_ROMAN_TABLE.items().__reversed__():
+        if val == 0: break
+        count = val // num
+        tmp.append(key * count)
+        val -= count * num
+    return ''.join(tmp)
