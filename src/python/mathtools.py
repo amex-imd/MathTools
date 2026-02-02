@@ -62,15 +62,16 @@ def Newton_Raphson_root(num: float, pow: int, approx: float = 1.0) -> tuple[floa
     return (curr, iter_num)
 
 def power(num: float, pow: int) -> float:
-    if is_zero(pow):
+    if pow == 0:
         if is_zero(num): raise ValueError('The expression \'0^0\' is not defined')
         else: return 1
     if pow < 0: return 1 / power(num, -pow)
-    res: float = num
-    pow -= 1
+    if pow == 1: return num
+    
+    res: float = 1
     while(pow > 0):
         if is_even(pow):
-            res *= res
+            num *= num
             pow //= 2
         else:
             res *= num
@@ -182,6 +183,7 @@ def interval_halving_method(f: Callable, beg: float, end: float) -> tuple[float,
     return (mid, iter_num)
 
 def clamp(val: float, min: float, max: float):
-    if val < min: return min
-    if val > max: return max
+    if val < min - __EPSILON: return min
+    if val > max + __EPSILON: return max
     return val
+
