@@ -1,4 +1,4 @@
-import math # Temporary
+from typing import Callable
 
 __EPSILON: float = 1e-12
 __ROMAN_TABLE: dict = {
@@ -46,12 +46,13 @@ def is_odd(val: int) -> bool:
     return not is_even(val)
 
 def Newton_Raphson_root(num: float, pow: int, approx: float = 1.0) -> tuple[float, int]:
-    if pow <= 0: raise ValueError(f'The argument \'{pow}\' must be greater than 0')
-    if is_even(pow) and num < 0: raise ValueError(f'It is impossible to take a root with the power \'{pow}\' of the negative number \'{num}\'')
+    if pow <= 0: raise ValueError('The argument \'pow\' must be greater than 0')
+    if is_even(pow) and num < 0: raise ValueError('It is impossible to take a root with the power \'pow\' of the negative number \'num\'')
 
     prev: float = approx
     curr: float = ((pow - 1) * prev + num/(prev ** (pow - 1))) / pow
     iter_num: int = 1
+
     while abs(prev - curr) > __EPSILON:
         prev = curr
         if is_zero(prev): raise ArithmeticError('Division by 0 is prohibited')
@@ -112,7 +113,7 @@ def is_prime(val: int) -> bool:
     if val == 0 or val == 1: return False
     if is_even(val): return False
 
-    for i in range(3, int(math.sqrt(val)) + 1, 2):
+    for i in range(3, int(Newton_Raphson_root(val, 2, val / 2)[0]) + 1, 2):
         if val % i == 0:
             return False
     return True
@@ -120,7 +121,7 @@ def is_prime(val: int) -> bool:
 def Eratosthenes_sieve(num: int) -> list:
     primes: list = [True] * num
     primes[0] = primes[1] = False
-    for i in range(2, int(math.sqrt(num)) + 1):
+    for i in range(2, int(Newton_Raphson_root(num, 2, num / 2)[0]) + 1):
         if primes[i]:
             j = i * i
             while j < num:
@@ -133,7 +134,7 @@ def number_primes(num: int) -> int:
 
 def all_divisors(val: int) -> list:
     res: list = []
-    for i in range(1, int(math.sqrt(val)) + 1):
+    for i in range(1, int(Newton_Raphson_root(val, 2, val / 2)[0]) + 1):
         if val % i == 0:
             res.append(i)
             if val // i != i: # Checking for duplicates
@@ -165,3 +166,17 @@ def integer_to_roman(val: int) -> str:
         res += key * count
         val -= count * num
     return res
+
+def interval_halving_method(f: Callable, beg: float, end: float) -> tuple:
+    if f(beg) * f(end) >= 0: raise ValueError('The function \'f\' must have values with different signs at the ends of the interval \'[beg; end]\'')
+    mid: float = 0
+    iter_num: int = 0
+
+    while abs(beg - end) > __EPSILON:
+        mid = (beg + end) / 2
+        if f(beg) * f(mid) < 0:
+            end = mid
+        elif f(mid) * f(end) < 0:
+            beg = mid
+        iter_num += 1
+    return (mid, iter_num)    
