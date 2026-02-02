@@ -90,9 +90,10 @@ def all_divisors(num: int) -> list:
 def number_divisors(num: int) -> list:
     return len(all_divisors(num))
 
-def sign(val: float):
+def sign(val: float) -> int:
     if val < -__EPSILON: return -1
     if val > __EPSILON: return +1
     return 0
 
-
+def abs(val: float) -> float:
+    return val * sign(val)
