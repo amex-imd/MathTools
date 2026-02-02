@@ -12,13 +12,13 @@ def Newton_Raphson_root(num: float, pow: int, approx: float = 1.0) -> tuple[floa
     if pow <= 0: raise ValueError(f'The argument \'{pow}\' must be greater than 0')
     if pow % 2 == 0 and num < 0: raise ValueError(f'It is impossible to take a root with the power \'{pow}\' of the negative number \'{num}\'')
 
-
     prev: float = approx
     curr: float = ((pow - 1) * prev + num/(prev ** (pow - 1))) / pow
     iter_num: int = 1
     while abs(prev - curr) > __EPSILON:
         prev = curr
         if is_zero(prev): raise ArithmeticError('Division by 0 is prohibited')
+
         curr = ((pow - 1) * prev + num/(prev ** (pow - 1))) / pow
         iter_num += 1
     return (curr, iter_num)
@@ -58,6 +58,7 @@ def is_prime(val: int) -> bool:
     if val == 2: return True
     if val == 0 or val == 1: return False
     if val % 2 == 0: return False
+
     for i in range(3, int(math.sqrt(val)) + 1, 2):
         if val % i == 0:
             return False
@@ -88,3 +89,10 @@ def all_divisors(num: int) -> list:
 
 def number_divisors(num: int) -> list:
     return len(all_divisors(num))
+
+def sign(val: float):
+    if val < -__EPSILON: return -1
+    if val > __EPSILON: return +1
+    return 0
+
+
