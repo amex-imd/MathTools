@@ -47,7 +47,8 @@ def is_odd(val: int) -> bool:
 
 def Newton_Raphson_root(num: float, pow: int, approx: float = 1.0) -> tuple[float, int]:
     if pow <= 0: raise ValueError('The argument \'pow\' must be greater than 0')
-    if is_even(pow) and num < 0: raise ValueError('It is impossible to take a root with the power \'pow\' of the negative number \'num\'')
+    if is_even(pow) and num < -__EPSILON: raise ValueError('It is impossible to take a root with the power \'pow\' of the negative number \'num\'')
+    if is_zero(num): return 0
 
     prev: float = approx
     curr: float = ((pow - 1) * prev + num/(prev ** (pow - 1))) / pow
@@ -168,6 +169,39 @@ def integer_to_roman(val: int) -> str:
         val -= count * num
     return res
 
+def integer_to_english(val: int) -> str:
+    def helper(part: int) -> str:
+        res: list[str] = []
+        if part >= 100:
+            res.append(digits[part // 100] + ' ' + rangs[0])
+            part %= 100
+        if part >= 20:
+            if part % 10 == 0: res.append(tens2[part // 10])
+            else: res.append(tens2[part // 10] + ' ' + digits[part % 10])
+        elif part >= 10: res.append(tens1[part % 10])
+        elif part > 0: res.append(digits[part])
+        return ' '.join(res)
+
+    if val < 0: raise ValueError('The argument \'val\' must not be lesser than 0')
+    if val == 0: return 'Zero'
+
+    digits: list[str] = ['', 'One','Two','Three','Four','Five','Six','Seven','Eight','Nine']
+    tens1: list[str] = ['Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen']
+    tens2: list[str] = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety']
+    rangs: list[str] = ['Hunred', 'Thousand', 'Million', 'Billion']
+    res: list[str] = []
+    rang: int = 0
+
+    while val > 0:
+        part: int = val % 1000
+        tmp: str = helper(part)
+        if tmp:
+            if rang > 0: res.append(rangs[rang]) # ignoring the case of zero
+            res.append(tmp)
+        val //= 1000
+        rang += 1
+    return ' '.join(reversed(res))
+
 def interval_halving_method(f: Callable, beg: float, end: float) -> tuple[float, int]:
     if f(beg) * f(end) >= 0: raise ValueError('The function \'f\' must have values with different signs at the ends of the interval \'[beg; end]\'')
     mid: float = 0
@@ -186,4 +220,3 @@ def clamp(val: float, min: float, max: float):
     if val < min - __EPSILON: return min
     if val > max + __EPSILON: return max
     return val
-

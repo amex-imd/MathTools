@@ -1,4 +1,4 @@
 import mathtools as mt
-import math as m
 
-print(mt.power(2, 10))
+print(mt.integer_to_english(100))
+        
