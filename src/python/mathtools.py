@@ -1,11 +1,20 @@
 import math # Temporary
 
 __EPSILON: float = 1e-12
+__ROMAN_TABLE: dict = {
+    'I' : 1,
+    'V' : 5,
+    'X' : 10,
+    'L' : 50,
+    'C' : 100,
+    'D' : 500,
+    'M' : 1000
+}
 
-def is_equal(num1: float, num2: float):
+def is_equal(num1: float, num2: float) -> bool:
     return abs(num1 - num2) <= __EPSILON
 
-def is_zero(num: float):
+def is_zero(num: float) -> bool:
     return is_equal(num, 0)
 
 def Newton_Raphson_root(num: float, pow: int, approx: float = 1.0) -> tuple[float, int]:
@@ -97,3 +106,15 @@ def sign(val: float) -> int:
 
 def abs(val: float) -> float:
     return val * sign(val)
+
+def roman_to_integer(line: str) -> int:
+    if not line: raise ValueError('The argument \'line\' must be not empty')
+
+    res: int = 0
+    L: int = len(line)
+
+    for i in range(0, L-1):
+        if __ROMAN_TABLE[line[i+1]] > __ROMAN_TABLE[line[i]]:
+            res -= __ROMAN_TABLE[line[i]]
+        else: res += __ROMAN_TABLE[line[i]]
+    return res + __ROMAN_TABLE[line[-1]]
