@@ -59,21 +59,21 @@ def sign(val: float) -> int:
 def abs(val: float) -> float:
     return val * sign(val)
 
-def is_equal(val1: float, val2: float) -> bool:
+def isEqual(val1: float, val2: float) -> bool:
     return abs(val1 - val2) <= __EPSILON
 
-def is_zero(val: float) -> bool:
-    return is_equal(val, 0)
+def isZero(val: float) -> bool:
+    return isEqual(val, 0)
 
-def is_even(val: int) -> bool:
+def isEven(val: int) -> bool:
     return val % 2 == 0
-def is_odd(val: int) -> bool:
-    return not is_even(val)
+def isOdd(val: int) -> bool:
+    return not isEven(val)
 
-def Newton_Raphson_root(num: float, pow: int, approx: float = 1.0) -> tuple[float, int]:
+def NewtonRaphsonRoot(num: float, pow: int, approx: float = 1.0) -> tuple[float, int]:
     if pow <= 0: raise ValueError('The argument \'pow\' must be greater than 0')
-    if is_even(pow) and num < -__EPSILON: raise ValueError('It is impossible to take a root with the power \'pow\' of the negative number \'num\'')
-    if is_zero(num): return 0
+    if isEven(pow) and num < -__EPSILON: raise ValueError('It is impossible to take a root with the power \'pow\' of the negative number \'num\'')
+    if isZero(num): return 0
 
     prev: float = approx
     curr: float = ((pow - 1) * prev + num/(prev ** (pow - 1))) / pow
@@ -81,7 +81,7 @@ def Newton_Raphson_root(num: float, pow: int, approx: float = 1.0) -> tuple[floa
 
     while abs(prev - curr) > __EPSILON:
         prev = curr
-        if is_zero(prev): raise ArithmeticError('Division by 0 is prohibited')
+        if isZero(prev): raise ArithmeticError('Division by 0 is prohibited')
 
         curr = ((pow - 1) * prev + num/(prev ** (pow - 1))) / pow
         iter_num += 1
@@ -89,14 +89,14 @@ def Newton_Raphson_root(num: float, pow: int, approx: float = 1.0) -> tuple[floa
 
 def power(num: float, pow: int) -> float:
     if pow == 0:
-        if is_zero(num): raise ValueError('The expression \'0^0\' is not defined')
+        if isZero(num): raise ValueError('The expression \'0^0\' is not defined')
         else: return 1
     if pow < 0: return 1 / power(num, -pow)
     if pow == 1: return num
     
     res: float = 1
     while(pow > 0):
-        if is_even(pow):
+        if isEven(pow):
             num *= num
             pow //= 2
         else:
@@ -114,7 +114,7 @@ def reverse(val: int) -> int:
     res *= sign
     return res
 
-def is_palindrome(val: int) -> bool:
+def isPalindrome(val: int) -> bool:
     if val < 0: return False
     if val < 10: return True
     if val % 10 == 0: return False
@@ -125,7 +125,7 @@ def is_palindrome(val: int) -> bool:
         val //= 10
     return val == half or val == half // 10
 
-def number_digits(val: int) -> int:
+def numberDigits(val: int) -> int:
     res: int = 0
     sign: int = -1 if val < 0 else 1
     val *= sign
@@ -134,21 +134,21 @@ def number_digits(val: int) -> int:
         val //= 10
     return res
 
-def is_prime(val: int) -> bool:
+def isPrime(val: int) -> bool:
     if val < 0: return False
     if val == 2: return True
     if val == 0 or val == 1: return False
-    if is_even(val): return False
+    if isEven(val): return False
 
-    for i in range(3, int(Newton_Raphson_root(val, 2, val / 2)[0]) + 1, 2):
+    for i in range(3, int(NewtonRaphsonRoot(val, 2, val / 2)[0]) + 1, 2):
         if val % i == 0:
             return False
     return True
 
-def Eratosthenes_sieve(num: int) -> List[int]:
+def EratosthenesSieve(num: int) -> List[int]:
     primes: List = [True] * num
     primes[0] = primes[1] = False
-    for i in range(2, int(Newton_Raphson_root(num, 2, num / 2)[0]) + 1):
+    for i in range(2, int(NewtonRaphsonRoot(num, 2, num / 2)[0]) + 1):
         if primes[i]:
             j = i * i
             while j < num:
@@ -156,22 +156,22 @@ def Eratosthenes_sieve(num: int) -> List[int]:
                 j += i
     return [i for i in range(2, num) if primes[i]]
 
-def number_primes(num: int) -> int:
-    return len(Eratosthenes_sieve(num))
+def numberPrimes(num: int) -> int:
+    return len(EratosthenesSieve(num))
 
-def all_divisors(val: int) -> List[int]:
+def allDivisors(val: int) -> List[int]:
     res: List = []
-    for i in range(1, int(Newton_Raphson_root(val, 2, val / 2)[0]) + 1):
+    for i in range(1, int(NewtonRaphsonRoot(val, 2, val / 2)[0]) + 1):
         if val % i == 0:
             res.append(i)
             if val // i != i: # Checking for duplicates
                 res.append(val // i)
     return res
 
-def number_divisors(val: int) -> int:
-    return len(all_divisors(val))
+def numberDivisors(val: int) -> int:
+    return len(allDivisors(val))
 
-def roman_to_integer(line: str) -> int:
+def romanToInteger(line: str) -> int:
     if not line: raise ValueError('The argument \'line\' must be not empty')
 
     res: int = 0
@@ -183,7 +183,7 @@ def roman_to_integer(line: str) -> int:
         else: res += __ROMAN_TABLE[line[i]]
     return res + __ROMAN_TABLE[line[-1]]
 
-def integer_to_roman(val: int) -> str:
+def integerToRoman(val: int) -> str:
     if val <= 0: raise ValueError('The argument \'val\' must be greater than 0')
 
     res: str = ''
@@ -194,7 +194,7 @@ def integer_to_roman(val: int) -> str:
         val -= count * num
     return res
 
-def integer_to_english(val: int) -> str:
+def integerToEnglish(val: int) -> str:
     def helper(part: int) -> str:
         res: List[str] = []
         if part >= 100:
@@ -227,7 +227,7 @@ def integer_to_english(val: int) -> str:
         rang += 1
     return ' '.join(reversed(res))
 
-def interval_halving_method(f: Callable, beg: float, end: float) -> Tuple[float, int]:
+def intervalHalvingMethod(f: Callable, beg: float, end: float) -> Tuple[float, int]:
     if f(beg) * f(end) >= 0: raise ValueError('The function \'f\' must have values with different signs at the ends of the interval \'[beg; end]\'')
     mid: float = 0
     iter_num: int = 0
@@ -280,7 +280,7 @@ def arithmeticMean(data: List[float]):
 def geometricMean(data: List[float]):
     P = reduce(lambda x, y: x * y, data, 1)
     N = len(data)
-    return Newton_Raphson_root(P, N)[0]
+    return NewtonRaphsonRoot(P, N)[0]
 
 def mean(data: List[float]):
     return (arithmeticMean(data), geometricMean(data))
