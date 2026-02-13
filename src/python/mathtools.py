@@ -1,4 +1,5 @@
-from typing import Callable
+from typing import Callable, List
+from functools import reduce
 
 __EPSILON: float = 1e-12
 __ROMAN_TABLE: dict = {
@@ -250,7 +251,20 @@ def LCM(*nums) -> int:
 def isRelativelyPrime(*nums) -> bool:
     return GCD(*nums) == 1
 
-def normalize(data):
+def normalize(data: List[float]):
     minValue, maxValue = min(data), max(data)
     if minValue == maxValue: return [0.5 for _ in data]
     return [(x - minValue) / (maxValue - minValue) for x in data] # Formula
+
+def arithmeticMean(data: List[float]):
+    S = sum(data)
+    N = len(data)
+    return S / N
+
+def geometricMean(data: List[float]):
+    P = reduce(lambda x, y: x * y, data, 1)
+    N = len(data)
+    return Newton_Raphson_root(P, N)
+
+def mean(data: List[float]):
+    return (arithmeticMean(data), geometricMean(data))
