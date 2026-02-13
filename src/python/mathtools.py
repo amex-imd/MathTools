@@ -1,4 +1,4 @@
-from typing import Callable, List
+from typing import Callable, List, Tuple
 from functools import reduce
 
 __EPSILON: float = 1e-12
@@ -32,6 +32,24 @@ def __GCDHelper(val1: int, val2: int) -> int:
         while val2 != 0:
             val1, val2 = val2, val1 % val2
         return abs(val1)
+
+def __linearRepresentationGCDHelper(val1: int, val2: int) -> Tuple[int, int]:
+    u0, v0 = 1, 0
+    u1, v1 = 0, 1
+    
+    while val2 != 0:
+        q = val1 // val2
+        r = val1 % val2
+
+        u = u0 - u1 * q
+        v = v0 - v1 * q
+
+        val1, val2 = val2, r
+        u0, v0 = u1, v1
+        u1, v1 = u, v
+        
+    return (u0, v0)
+
 
 def sign(val: float) -> int:
     if val < -__EPSILON: return -1
@@ -127,8 +145,8 @@ def is_prime(val: int) -> bool:
             return False
     return True
 
-def Eratosthenes_sieve(num: int) -> list[int]:
-    primes: list = [True] * num
+def Eratosthenes_sieve(num: int) -> List[int]:
+    primes: List = [True] * num
     primes[0] = primes[1] = False
     for i in range(2, int(Newton_Raphson_root(num, 2, num / 2)[0]) + 1):
         if primes[i]:
@@ -141,8 +159,8 @@ def Eratosthenes_sieve(num: int) -> list[int]:
 def number_primes(num: int) -> int:
     return len(Eratosthenes_sieve(num))
 
-def all_divisors(val: int) -> list[int]:
-    res: list = []
+def all_divisors(val: int) -> List[int]:
+    res: List = []
     for i in range(1, int(Newton_Raphson_root(val, 2, val / 2)[0]) + 1):
         if val % i == 0:
             res.append(i)
@@ -150,7 +168,7 @@ def all_divisors(val: int) -> list[int]:
                 res.append(val // i)
     return res
 
-def number_divisors(val: int) -> list:
+def number_divisors(val: int) -> int:
     return len(all_divisors(val))
 
 def roman_to_integer(line: str) -> int:
@@ -178,7 +196,7 @@ def integer_to_roman(val: int) -> str:
 
 def integer_to_english(val: int) -> str:
     def helper(part: int) -> str:
-        res: list[str] = []
+        res: List[str] = []
         if part >= 100:
             res.append(digits[part // 100] + ' ' + rangs[0])
             part %= 100
@@ -192,11 +210,11 @@ def integer_to_english(val: int) -> str:
     if val < 0: raise ValueError('The argument \'val\' must not be lesser than 0')
     if val == 0: return 'Zero'
 
-    digits: list[str] = ['', 'One','Two','Three','Four','Five','Six','Seven','Eight','Nine']
-    tens1: list[str] = ['Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen']
-    tens2: list[str] = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety']
-    rangs: list[str] = ['Hunred', 'Thousand', 'Million', 'Billion']
-    res: list[str] = []
+    digits: List[str] = ['', 'One','Two','Three','Four','Five','Six','Seven','Eight','Nine']
+    tens1: List[str] = ['Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen']
+    tens2: List[str] = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety']
+    rangs: List[str] = ['Hunred', 'Thousand', 'Million', 'Billion']
+    res: List[str] = []
     rang: int = 0
 
     while val > 0:
@@ -209,7 +227,7 @@ def integer_to_english(val: int) -> str:
         rang += 1
     return ' '.join(reversed(res))
 
-def interval_halving_method(f: Callable, beg: float, end: float) -> tuple[float, int]:
+def interval_halving_method(f: Callable, beg: float, end: float) -> Tuple[float, int]:
     if f(beg) * f(end) >= 0: raise ValueError('The function \'f\' must have values with different signs at the ends of the interval \'[beg; end]\'')
     mid: float = 0
     iter_num: int = 0
@@ -223,14 +241,12 @@ def interval_halving_method(f: Callable, beg: float, end: float) -> tuple[float,
         iter_num += 1
     return (mid, iter_num)
 
-def clamp(val: float, min: float, max: float):
+def clamp(val: float, min: float, max: float) -> float:
     if val < min - __EPSILON: return min
     if val > max + __EPSILON: return max
     return val
 
 def GCD(*nums) -> int:
-    
-
     if len(nums) == 0: raise ValueError('The argument \'nums\' is empty')
     
     res: int = nums[0]
@@ -268,3 +284,16 @@ def geometricMean(data: List[float]):
 
 def mean(data: List[float]):
     return (arithmeticMean(data), geometricMean(data))
+
+def linearRepresentationGCD(*nums) -> Tuple:
+    if len(nums) == 0: raise ValueError('The argument \'nums\' is empty')
+    coeff: List[int] = [1] + [0] * (len(nums) - 1)
+    gcd: int = nums[0]
+    for i in range(1, len(nums)):
+        u, v = __linearRepresentationGCDHelper(gcd, nums[i])
+        gcd = __GCDHelper(gcd, nums[i])
+
+        for j in range(i): coeff[j] *= u
+        coeff[i] = v
+    return tuple(coeff)
+        
