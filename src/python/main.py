@@ -6,4 +6,4 @@ for x in lst:
     print(x)
 
 print(mt.GCD(100, 20))
-print(mt.linearRepresentationGCD(27, 18, 36))
+print(mt.ExtendedEuclideanAlgorithm(27, 18, 36))

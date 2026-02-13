@@ -51,6 +51,7 @@ def __linearRepresentationGCDHelper(val1: int, val2: int) -> Tuple[int, int]:
     return (u0, v0)
 
 
+
 def sign(val: float) -> int:
     if val < -__EPSILON: return -1
     if val > __EPSILON: return +1
@@ -297,3 +298,14 @@ def linearRepresentationGCD(*nums) -> Tuple:
         coeff[i] = v
     return tuple(coeff)
         
+def ExtendedEuclideanAlgorithm(*nums) -> Tuple:
+    if len(nums) == 0: raise ValueError('The argument \'nums\' is empty')
+    coeff: List[int] = [1] + [0] * (len(nums) - 1)
+    gcd: int = nums[0]
+    for i in range(1, len(nums)):
+        u, v = __linearRepresentationGCDHelper(gcd, nums[i])
+        gcd = __GCDHelper(gcd, nums[i])
+
+        for j in range(i): coeff[j] *= u
+        coeff[i] = v
+    return (gcd, *coeff)
