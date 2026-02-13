@@ -15,3 +15,8 @@ def EuclideanDistance(p1: Point2D, p2: Point2D):
     return mt.Newton_Raphson_root(p1.x * p2.x + p1.y * p2.y, 2)[0]
 def EuclideanDistance(p1: Point3D, p2: Point3D):
     return mt.Newton_Raphson_root(p1.x * p2.x + p1.y * p2.y + p1.z * p2.z, 2)[0]
+
+def middlePoint(p1: Point2D, p2: Point2D):
+    return Point2D((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
+def middlePoint(p1: Point3D, p2: Point3D):
+    return Point3D((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, (p1.z + p2.z) / 2)
