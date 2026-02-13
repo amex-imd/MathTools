@@ -220,3 +220,18 @@ def clamp(val: float, min: float, max: float):
     if val < min - __EPSILON: return min
     if val > max + __EPSILON: return max
     return val
+
+
+def GCD(*nums) -> int:
+    def helper(val1: int, val2: int) -> int:
+        if val1 == 0 and val2 == 0: raise ValueError('The arguments \'val1\' and \'val2\' equal 0')
+        while val2 != 0:
+            val1, val2 = val2, val1 % val2
+        return abs(val1)
+
+    if len(nums) == 0: raise ValueError('The argument \'nums\' is empty')
+    res: int = nums[0]
+    for num in nums:
+        res = helper(res, num)
+        if res == 1: break
+    return res

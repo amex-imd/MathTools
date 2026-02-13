@@ -1,4 +1,2 @@
 import mathtools as mt
-
-print(mt.integer_to_english(100))
-        
+print(mt.GCD(100, 25, 50))
