@@ -1,2 +1,6 @@
 import mathtools as mt
-print(mt.mean([-3, 5, 0, 1, 3, 10, -8, 3, -9, 1, 0]))
+import geometry as gm
+from random import randint
+lst: gm.Point3D = [gm.Point3D(randint(0, 255), randint(0, 255), randint(0, 255)) for _ in range(5)]
+for x in lst:
+    print(x)
