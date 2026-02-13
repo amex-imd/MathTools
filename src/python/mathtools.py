@@ -248,3 +248,5 @@ def LCM(*nums) -> int:
 
     return res
     
+def isRelativelyPrime(*nums) -> bool:
+    return GCD(*nums) == 1

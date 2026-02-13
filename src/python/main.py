@@ -1,2 +1,2 @@
 import mathtools as mt
-print(mt.GCD(100, 25, 50))
+print(mt.isRelativelyPrime(17, 19))
