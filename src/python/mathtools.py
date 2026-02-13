@@ -222,16 +222,29 @@ def clamp(val: float, min: float, max: float):
     return val
 
 
-def GCD(*nums) -> int:
-    def helper(val1: int, val2: int) -> int:
+def __GCDHelper(val1: int, val2: int) -> int:
         if val1 == 0 and val2 == 0: raise ValueError('The arguments \'val1\' and \'val2\' equal 0')
         while val2 != 0:
             val1, val2 = val2, val1 % val2
         return abs(val1)
 
+def GCD(*nums) -> int:
+    
+
     if len(nums) == 0: raise ValueError('The argument \'nums\' is empty')
+    
     res: int = nums[0]
-    for num in nums:
-        res = helper(res, num)
+    for i in range(1, len(nums)):
+        res = __GCDHelper(res, nums[i])
         if res == 1: break
     return res
+
+def LCM(*nums) -> int:
+    if len(nums) == 0: raise ValueError('The argument \'nums\' is empty')
+
+    res: int = nums[0]
+    for i in range(1, len(nums)):
+        res = abs(res * nums[i]) // __GCDHelper(res, nums[i])
+
+    return res
+    
