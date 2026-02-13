@@ -264,7 +264,7 @@ def arithmeticMean(data: List[float]):
 def geometricMean(data: List[float]):
     P = reduce(lambda x, y: x * y, data, 1)
     N = len(data)
-    return Newton_Raphson_root(P, N)
+    return Newton_Raphson_root(P, N)[0]
 
 def mean(data: List[float]):
     return (arithmeticMean(data), geometricMean(data))
