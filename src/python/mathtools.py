@@ -26,6 +26,12 @@ __SPECIAL_ROMAN_TABLE: dict = {
     'M' : 1000
 }
 
+def __GCDHelper(val1: int, val2: int) -> int:
+        if val1 == 0 and val2 == 0: raise ValueError('The arguments \'val1\' and \'val2\' equal 0')
+        while val2 != 0:
+            val1, val2 = val2, val1 % val2
+        return abs(val1)
+
 def sign(val: float) -> int:
     if val < -__EPSILON: return -1
     if val > __EPSILON: return +1
@@ -221,13 +227,6 @@ def clamp(val: float, min: float, max: float):
     if val > max + __EPSILON: return max
     return val
 
-
-def __GCDHelper(val1: int, val2: int) -> int:
-        if val1 == 0 and val2 == 0: raise ValueError('The arguments \'val1\' and \'val2\' equal 0')
-        while val2 != 0:
-            val1, val2 = val2, val1 % val2
-        return abs(val1)
-
 def GCD(*nums) -> int:
     
 
@@ -250,3 +249,8 @@ def LCM(*nums) -> int:
     
 def isRelativelyPrime(*nums) -> bool:
     return GCD(*nums) == 1
+
+def normalize(data):
+    minValue, maxValue = min(data), max(data)
+    if minValue == maxValue: return [0.5 for _ in data]
+    return [(x - minValue) / (maxValue - minValue) for x in data] # Formula
