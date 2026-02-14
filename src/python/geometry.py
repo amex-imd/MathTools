@@ -30,9 +30,9 @@ class Point3D(Point2D):
     def __ne__(self, other): return not self.__eq__(other)
 
 class circle():
-    def __init__(self, p: Point2D, radius: float) -> None:
-        self.center = p
-        self._radius = radius
+    def __init__(self, center: Point2D, radius: float) -> None:
+        self.center: Point2D = center
+        self._radius: float = radius # Major axle shaft
 
     @property
     def radius(self) -> float:
@@ -45,9 +45,37 @@ class circle():
 
     def __str__(self) -> str: return f"Center: <{self.center.x}, {self.center.y}>; Radius: {self._radius}"
 
-    def area(self) -> float: return mt.PI * mt.PI * self._radius
+    def area(self) -> float: return mt.PI * self._radius * self._radius
 
-    def length(self) -> float: return 2 * mt.PI * self._radius 
+    def length(self) -> float: return 2 * mt.PI * self._radius
+
+def ellipse():
+    def __init__(self, center: Point2D, a: float, b: float) -> None:
+        self._a: float = a
+        self._b: float = b
+        self.center: Point2D = center
+
+    @property
+    def a(self) -> float:
+        return self._a
+    @a.setter
+    def a(self, a: float) -> None:
+        if a <= 0: raise ValueError('The argument \'a\' must be greater than 0')
+        self._a = a
+
+    @property
+    def b(self) -> float:
+        return self._b
+    @b.setter
+    def b(self, b: float) -> None:
+        if b <= 0: raise ValueError('The argument \'b\' must be greater than 0')
+        self._b = b
+
+    def __str__(self) -> str: return f"Center: <{self.center.x}, {self.center.y}>; a: {self._a}; b: {self._b}"
+
+    def area(self) -> float: return mt.PI * self._a * self._b
+
+    def length(self) -> float: pass # TODO
         
 
 def EuclideanDistance(p1: Point2D, p2: Point2D):
