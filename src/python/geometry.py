@@ -4,9 +4,13 @@ class Point2D:
     def __init__(self, x: float, y: float) -> None:
         self.x: float = x
         self.y: float = y
-        self.shape: int = 2
+        self._shape: int = 2
 
-    def __str__(self) -> str: return f'<{self.x}, {self.y}> in {self.shape}D'
+    @property
+    def shape(self) -> int:
+        return self._shape
+
+    def __str__(self) -> str: return f'<{self.x}, {self.y}> in {self._shape}D'
 
     def __eq__(self, other) -> bool:
         if not isinstance(other, Point2D): return False
@@ -17,13 +21,34 @@ class Point3D(Point2D):
     def __init__(self, x: float, y: float, z: float) -> None:
         Point2D.__init__(self, x, y)
         self.z: float = z
-        self.shape = 3
+        self._shape = 3
 
     def __str__(self) -> str: return f'<{self.x:.2f}, {self.y:.2f}, {self.z:.2f}> in {self.shape}D'
 
     def __eq__(self, other) -> bool:
         return super().__eq__(other) and other.z == self.z
     def __ne__(self, other): return not self.__eq__(other)
+
+class circle():
+    def __init__(self, p: Point2D, radius: float) -> None:
+        self.center = p
+        self._radius = radius
+
+    @property
+    def radius(self) -> float:
+        return self._radius
+    
+    @radius.setter
+    def radius(self, radius: float) -> None:
+        if radius <= 0: raise ValueError('The argument \'radius\' must be greater than 0')
+        self._radius = radius
+
+    def __str__(self) -> str: return f"Center: <{self.center.x}, {self.center.y}>; Radius: {self._radius}"
+
+    def area(self) -> float: return mt.PI * mt.PI * self._radius
+
+    def length(self) -> float: return 2 * mt.PI * self._radius 
+        
 
 def EuclideanDistance(p1: Point2D, p2: Point2D):
     return mt.Newton_Raphson_root(p1.x * p2.x + p1.y * p2.y, 2)[0]

@@ -1,9 +1,8 @@
-import mathtools as mt
-import geometry as gm
+from geometry import Point2D, circle
 from random import randint
-lst: gm.Point3D = [gm.Point3D(randint(0, 255), randint(0, 255), randint(0, 255)) for _ in range(5)]
-for x in lst:
-    print(x)
 
-print(mt.GCD(100, 20))
-print(mt.ExtendedEuclideanAlgorithm(27, 18, 36))
+c: circle = circle(Point2D(randint(0, 255), randint(0, 255)), 5)
+print(c.area())
+print(c.length())
+print(c.radius)
+print(c)

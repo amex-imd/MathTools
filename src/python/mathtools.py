@@ -1,8 +1,9 @@
-from typing import Callable, List, Tuple
+from typing import Callable, List, Tuple, Dict
 from functools import reduce
 
 __EPSILON: float = 1e-12
-__ROMAN_TABLE: dict = {
+PI: float = 3.1415
+__ROMAN_TABLE: Dict[str, int] = {
     'I' : 1,
     'V' : 5,
     'X' : 10,
@@ -11,7 +12,7 @@ __ROMAN_TABLE: dict = {
     'D' : 500,
     'M' : 1000
 }
-__SPECIAL_ROMAN_TABLE: dict = {
+__SPECIAL_ROMAN_TABLE: Dict[str, int] = {
     'I' : 1,
     'IV' : 4,
     'V' : 5,
@@ -49,8 +50,6 @@ def __linearRepresentationGCDHelper(val1: int, val2: int) -> Tuple[int, int]:
         u1, v1 = u, v
         
     return (u0, v0)
-
-
 
 def sign(val: float) -> int:
     if val < -__EPSILON: return -1
@@ -273,17 +272,17 @@ def normalize(data: List[float]):
     if minValue == maxValue: return [0.5 for _ in data]
     return [(x - minValue) / (maxValue - minValue) for x in data] # Formula
 
-def arithmeticMean(data: List[float]):
+def arithmeticMean(data: List[float]) -> float:
     S = sum(data)
     N = len(data)
     return S / N
 
-def geometricMean(data: List[float]):
+def geometricMean(data: List[float]) -> float:
     P = reduce(lambda x, y: x * y, data, 1)
     N = len(data)
     return NewtonRaphsonRoot(P, N)[0]
 
-def mean(data: List[float]):
+def mean(data: List[float]) -> Tuple[float, float]:
     return (arithmeticMean(data), geometricMean(data))
 
 def linearRepresentationGCD(*nums) -> Tuple:
