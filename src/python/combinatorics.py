@@ -22,3 +22,15 @@ def PasalTriangleRow(rowIndex: int) -> List[int]:
         nextElem = res[i] * (rowIndex - i) // (i+1)
         res.append(nextElem)
     return res
+
+def combinatorialCoefficient(n: int, k: int):
+    if k == 0 or k == n: return 1
+    if k == 1: return n
+    if k > n // 2: k = n-k # for optimization
+
+    res: int = 1
+    for i in range(1, k+1):
+        res *= (n-i+1) // i
+
+    return res
+    
