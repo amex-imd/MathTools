@@ -1,4 +1,5 @@
 from typing import List
+from math import log2, ceil
 
 def factorial(number: int):
     if number == 0 or number == 1: return 1
@@ -33,4 +34,11 @@ def combinatorialCoefficient(n: int, k: int):
         res *= (n-i+1) // i
 
     return res
-    
+
+
+def poorPigs(buckets: int, minutesToDie: int, minutesToTest: int) -> int:
+    # res: int = 0
+    # states: int = minutesToTest // minutesToDie
+    # while(states ** res < buckets):
+    # pigs += 1
+    return ceil(log2(buckets) / log2(minutesToTest // minutesToDie + 1))
