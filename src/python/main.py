@@ -1,8 +1,10 @@
-from geometry import Point2D, circle
+from geometry import point2D, circle, ellipse
 from random import randint
 
-c: circle = circle(Point2D(randint(0, 255), randint(0, 255)), 5)
-print(c.area())
-print(c.length())
-print(c.radius)
-print(c)
+e: ellipse = ellipse(point2D(0, 0), 5, 2)
+print(e)
+print(e.perimeter())
+print(e.area())
+print(e.eccentricity())
+print(e.directrix())
+print(e.focalDistance())

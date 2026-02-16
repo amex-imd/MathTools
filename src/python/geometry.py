@@ -1,6 +1,6 @@
 import mathtools as mt
 
-class Point2D:
+class point2D:
     def __init__(self, x: float, y: float) -> None:
         self.x: float = x
         self.y: float = y
@@ -13,13 +13,13 @@ class Point2D:
     def __str__(self) -> str: return f'<{self.x}, {self.y}> in {self._shape}D'
 
     def __eq__(self, other) -> bool:
-        if not isinstance(other, Point2D): return False
+        if not isinstance(other, point2D): return False
         return other.x == self.x and other.y == self.y
     def __ne__(self, other): return not self.__eq__(other)
     
-class Point3D(Point2D):
+class point3D(point2D):
     def __init__(self, x: float, y: float, z: float) -> None:
-        Point2D.__init__(self, x, y)
+        point2D.__init__(self, x, y)
         self.z: float = z
         self._shape = 3
 
@@ -30,8 +30,8 @@ class Point3D(Point2D):
     def __ne__(self, other): return not self.__eq__(other)
 
 class circle():
-    def __init__(self, center: Point2D, radius: float) -> None:
-        self.center: Point2D = center
+    def __init__(self, center: point2D, radius: float) -> None:
+        self.center: point2D = center
         self._radius: float = radius # Major axle shaft
 
     @property
@@ -47,13 +47,24 @@ class circle():
 
     def area(self) -> float: return mt.PI * self._radius * self._radius
 
-    def length(self) -> float: return 2 * mt.PI * self._radius
+    def perimeter(self) -> float: return 2 * mt.PI * self._radius
 
-def ellipse():
-    def __init__(self, center: Point2D, a: float, b: float) -> None:
+class ellipse():
+    def __init__(self, center: point2D, a: float, b: float) -> None:
         self._a: float = a
         self._b: float = b
-        self.center: Point2D = center
+        self.center: point2D = center
+
+    def area(self) -> float: return mt.PI * self._a * self._b
+
+    def perimeter(self) -> float: return mt.PI*(3*(self._a + self._b) - mt.NewtonRaphsonRoot((3*self._a + self._b)*(self._a + 3*self._b), 2)[0])
+
+    def eccentricity(self) -> float: return mt.NewtonRaphsonRoot(1 - (self._b * self._b) / (self._a * self._a), 2)[0]
+
+    def focalDistance(self) -> float: return mt.NewtonRaphsonRoot(self._a * self._a - self._b * self._b, 2)[0]
+
+    def directrix(self) -> float: return self._a / self.eccentricity()
+
 
     @property
     def a(self) -> float:
@@ -73,17 +84,12 @@ def ellipse():
 
     def __str__(self) -> str: return f"Center: <{self.center.x}, {self.center.y}>; a: {self._a}; b: {self._b}"
 
-    def area(self) -> float: return mt.PI * self._a * self._b
-
-    def length(self) -> float: pass # TODO
-        
-
-def EuclideanDistance(p1: Point2D, p2: Point2D):
+def EuclideanDistance(p1: point2D, p2: point2D):
     return mt.Newton_Raphson_root(p1.x * p2.x + p1.y * p2.y, 2)[0]
-def EuclideanDistance(p1: Point3D, p2: Point3D):
+def EuclideanDistance(p1: point3D, p2: point3D):
     return mt.Newton_Raphson_root(p1.x * p2.x + p1.y * p2.y + p1.z * p2.z, 2)[0]
 
-def middlePoint(p1: Point2D, p2: Point2D):
-    return Point2D((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
-def middlePoint(p1: Point3D, p2: Point3D):
-    return Point3D((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, (p1.z + p2.z) / 2)
+def middlePoint(p1: point2D, p2: point2D):
+    return point2D((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
+def middlePoint(p1: point3D, p2: point3D):
+    return point3D((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, (p1.z + p2.z) / 2)

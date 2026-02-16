@@ -1,7 +1,7 @@
 from typing import Callable, List, Tuple, Dict
 from functools import reduce
 
-__EPSILON: float = 1e-12
+EPSILON: float = 1e-12
 PI: float = 3.1415
 __ROMAN_TABLE: Dict[str, int] = {
     'I' : 1,
@@ -52,15 +52,15 @@ def __linearRepresentationGCDHelper(val1: int, val2: int) -> Tuple[int, int]:
     return (u0, v0)
 
 def sign(val: float) -> int:
-    if val < -__EPSILON: return -1
-    if val > __EPSILON: return +1
+    if val < -EPSILON: return -1
+    if val > EPSILON: return +1
     return 0
 
 def abs(val: float) -> float:
     return val * sign(val)
 
 def isEqual(val1: float, val2: float) -> bool:
-    return abs(val1 - val2) <= __EPSILON
+    return abs(val1 - val2) <= EPSILON
 
 def isZero(val: float) -> bool:
     return isEqual(val, 0)
@@ -72,14 +72,14 @@ def isOdd(val: int) -> bool:
 
 def NewtonRaphsonRoot(num: float, pow: int, approx: float = 1.0) -> tuple[float, int]:
     if pow <= 0: raise ValueError('The argument \'pow\' must be greater than 0')
-    if isEven(pow) and num < -__EPSILON: raise ValueError('It is impossible to take a root with the power \'pow\' of the negative number \'num\'')
+    if isEven(pow) and num < -EPSILON: raise ValueError('It is impossible to take a root with the power \'pow\' of the negative number \'num\'')
     if isZero(num): return 0
 
     prev: float = approx
     curr: float = ((pow - 1) * prev + num/(prev ** (pow - 1))) / pow
     iter_num: int = 1
 
-    while abs(prev - curr) > __EPSILON:
+    while abs(prev - curr) > EPSILON:
         prev = curr
         if isZero(prev): raise ArithmeticError('Division by 0 is prohibited')
 
@@ -232,7 +232,7 @@ def intervalHalvingMethod(f: Callable, beg: float, end: float) -> Tuple[float, i
     mid: float = 0
     iter_num: int = 0
 
-    while abs(beg - end) > __EPSILON:
+    while abs(beg - end) > EPSILON:
         mid = (beg + end) / 2
         if f(beg) * f(mid) < 0:
             end = mid
@@ -242,8 +242,8 @@ def intervalHalvingMethod(f: Callable, beg: float, end: float) -> Tuple[float, i
     return (mid, iter_num)
 
 def clamp(val: float, min: float, max: float) -> float:
-    if val < min - __EPSILON: return min
-    if val > max + __EPSILON: return max
+    if val < min - EPSILON: return min
+    if val > max + EPSILON: return max
     return val
 
 def GCD(*nums) -> int:
