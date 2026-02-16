@@ -1,4 +1,5 @@
 import mathtools as mt
+from typing import Tuple
 
 class point2D:
     def __init__(self, x: float, y: float) -> None:
@@ -84,12 +85,43 @@ class ellipse():
 
     def __str__(self) -> str: return f"Center: <{self.center.x}, {self.center.y}>; a: {self._a}; b: {self._b}"
 
-def EuclideanDistance(p1: point2D, p2: point2D):
+class square():
+    def __init__(self, center: point2D, side: float):
+        if side < 0: raise ValueError('The argument \'side\' must be greater than or equal to 0')
+        self._side = side
+        self.center = center
+
+    @property
+    def side(self) -> float:
+        return self._side
+    
+    @side.setter
+    def side(self, side: float) -> None:
+        if side < 0: raise ValueError('The argument \'side\' must be greater than or equal to 0')
+        self._side = side
+
+    def __str__(self) -> str: return f"Center: <{self.center.x}, {self.center.y}>; Side: {self._side}"
+
+
+    def area(self): return self._side * self._side
+    def perimeter(self): return 4 * self._side
+    def diagonal(self): return self._side * mt.NewtonRaphsonRoot(2, 2)[0]
+    def radius(self) -> Tuple[float, float]: return (self._side / 2, self._a / mt.NewtonRaphsonRoot(2, 2)[0])
+    def vertices(self) -> Tuple[Tuple[float, float], Tuple[float, float], Tuple[float, float], Tuple[float, float]]:
+        half: float = self._side / 2
+        x, y = self.center.x, self.center.y
+        return ((x - half, y + half),
+                (x + half, y + half),
+                (x + half, y - half),
+                (x - half, y - half))
+    
+
+def EuclideanDistance(p1: point2D, p2: point2D) -> float:
     return mt.Newton_Raphson_root(p1.x * p2.x + p1.y * p2.y, 2)[0]
-def EuclideanDistance(p1: point3D, p2: point3D):
+def EuclideanDistance(p1: point3D, p2: point3D) -> float:
     return mt.Newton_Raphson_root(p1.x * p2.x + p1.y * p2.y + p1.z * p2.z, 2)[0]
 
-def middlePoint(p1: point2D, p2: point2D):
+def middlePoint(p1: point2D, p2: point2D) -> float:
     return point2D((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
-def middlePoint(p1: point3D, p2: point3D):
+def middlePoint(p1: point3D, p2: point3D) -> float:
     return point3D((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, (p1.z + p2.z) / 2)

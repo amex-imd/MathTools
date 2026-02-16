@@ -1,10 +1,9 @@
-from geometry import point2D, circle, ellipse
+from geometry import point2D, circle, ellipse, square
 from random import randint
 
-e: ellipse = ellipse(point2D(0, 0), 5, 2)
+e: square = square(point2D(0, 0), 5)
 print(e)
 print(e.perimeter())
 print(e.area())
-print(e.eccentricity())
-print(e.directrix())
-print(e.focalDistance())
+print(e.vertices())
+print(e.diagonal())

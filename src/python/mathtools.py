@@ -3,6 +3,7 @@ from functools import reduce
 
 EPSILON: float = 1e-12
 PI: float = 3.1415
+
 __ROMAN_TABLE: Dict[str, int] = {
     'I' : 1,
     'V' : 5,
