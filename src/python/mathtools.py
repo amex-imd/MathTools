@@ -298,7 +298,7 @@ def linearRepresentationGCD(*nums) -> Tuple:
         coeff[i] = v
     return tuple(coeff)
         
-def ExtendedEuclideanAlgorithm(*nums) -> Tuple:
+def extendedEuclideanAlgorithm(*nums) -> Tuple:
     if len(nums) == 0: raise ValueError('The argument \'nums\' is empty')
     coeff: List[int] = [1] + [0] * (len(nums) - 1)
     gcd: int = nums[0]
