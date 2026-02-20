@@ -63,6 +63,11 @@ def geometricProgression(start: float, factor: float):
         yield curr
         curr *= factor
 
+def HarmonicProgression(start: float, step: float):
+    ap = arithmeticProgression(start, step)
+    while True:
+        yield 1 / next(ap)
+
 def FibonacciNumbers():
     prev: float = 0
     curr: float = 1
@@ -70,7 +75,9 @@ def FibonacciNumbers():
         yield prev
         (prev, curr) = (curr, prev + curr)
 
-def HarmonicProgression(start: float, step: float):
-    ap = arithmeticProgression(start, step)
+def LukeNumbers():
+    prev: float = 2
+    curr: float = 1
     while True:
-        yield 1 / next(ap)
+        yield prev
+        (prev, curr) = (curr, prev + curr)

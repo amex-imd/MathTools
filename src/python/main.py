@@ -1,10 +1,10 @@
 from geometry2D import point2D, circle, ellipse, square
 from random import randint
 
-from combinatorics import HarmonicProgression
+from combinatorics import LukeNumbers
 
 def main() -> None:
-    a = HarmonicProgression(1, 1)
+    a = LukeNumbers()
     for x in range(10):
         print(next(a))
 
