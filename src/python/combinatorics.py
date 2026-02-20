@@ -69,3 +69,8 @@ def FibonacciNumbers():
     while True:
         yield prev
         (prev, curr) = (curr, prev + curr)
+
+def HarmonicProgression(start: float, step: float):
+    ap = arithmeticProgression(start, step)
+    while True:
+        yield 1 / next(ap)
