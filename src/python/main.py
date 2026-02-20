@@ -1,13 +1,12 @@
-from geometry2D import point2D, circle, ellipse, square
-from random import randint
-
-from combinatorics import LukeNumbers
+from combinatorics import NarayanaAlgorithm
 
 def main() -> None:
-    a = LukeNumbers()
-    for x in range(10):
-        print(next(a))
-
-    a.close()
-
+    a = [1, 2, 3]
+    print(NarayanaAlgorithm(a), a)
+    print(NarayanaAlgorithm(a), a)
+    print(NarayanaAlgorithm(a), a)
+    print(NarayanaAlgorithm(a), a)
+    print(NarayanaAlgorithm(a), a)
+    print(NarayanaAlgorithm(a), a)
+    print(NarayanaAlgorithm(a), a)
 main()

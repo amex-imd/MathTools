@@ -81,3 +81,20 @@ def LukeNumbers():
     while True:
         yield prev
         (prev, curr) = (curr, prev + curr)
+
+def NarayanaAlgorithm(perm): # Next permutation
+    j: int = -1
+    for i in range(len(perm) - 1):
+        if perm[i] < perm[i+1]:
+            j = i
+    if j < 0: return False
+    l: int = j+1
+    for i in range(l, len(perm)):
+        if perm[i] > perm[j]:
+            l = i
+
+    (perm[j], perm[l]) = (perm[l], perm[j])
+    perm[j+1:] = reversed(perm[j+1:])
+    return True
+    
+    
