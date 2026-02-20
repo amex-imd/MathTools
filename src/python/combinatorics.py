@@ -52,14 +52,20 @@ def JosephusIterativeProblem(n: int, k: int):
     return res
 
 def arithmeticProgression(start: float, step: float):
-    curr = start
+    curr: float = start
     while True:
         yield curr
         curr += step
 
 def geometricProgression(start: float, factor: float):
-    curr = start
+    curr: float = start
     while True:
         yield curr
         curr *= factor
 
+def FibonacciNumbers():
+    prev: float = 0
+    curr: float = 1
+    while True:
+        yield prev
+        (prev, curr) = (curr, prev + curr)
