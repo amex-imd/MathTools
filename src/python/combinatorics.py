@@ -57,5 +57,9 @@ def arithmeticProgression(start: float, step: float):
         yield curr
         curr += step
 
-
+def geometricProgression(start: float, factor: float):
+    curr = start
+    while True:
+        yield curr
+        curr *= factor
 
