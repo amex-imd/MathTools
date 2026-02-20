@@ -51,4 +51,11 @@ def JosephusIterativeProblem(n: int, k: int):
     for i in range(2, n+1): res = (res + k) % i
     return res
 
+def arithmeticProgression(start: float, step: float):
+    curr = start
+    while True:
+        yield curr
+        curr += step
+
+
 
