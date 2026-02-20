@@ -1,6 +1,9 @@
 from geometry2D import point2D, circle, ellipse, square
 from random import randint
 
-from combinatorics import combinatorialCoefficient
+from combinatorics import JosephusIterativeProblem, JosephusRecursiveProblem
 
-print(combinatorialCoefficient(5, 2))
+def main() -> None:
+    pass
+
+main()

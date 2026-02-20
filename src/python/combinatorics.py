@@ -35,10 +35,20 @@ def combinatorialCoefficient(n: int, k: int):
 
     return res
 
-
 def poorPigs(buckets: int, minutesToDie: int, minutesToTest: int) -> int:
     # res: int = 0
     # states: int = minutesToTest // minutesToDie
     # while(states ** res < buckets):
     # pigs += 1
-    return ceil(log2(buckets) / log2(minutesToTest // minutesToDie + 1))
+    return ceil(log2(buckets) / log2(minutesToTest // minutesToDie + 1)) # log doesn't work because of error
+
+def JosephusRecursiveProblem(n: int, k: int):
+    if n == 1: return 0
+    return (JosephusRecursiveProblem(n - 1, k) + k) % n
+
+def JosephusIterativeProblem(n: int, k: int):
+    res: int = 0
+    for i in range(2, n+1): res = (res + k) % i
+    return res
+
+
